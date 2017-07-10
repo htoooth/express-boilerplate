@@ -2,9 +2,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var logger = require('winston');
+
 var pkg = require('./package.json');
 var config = require('./config/common');
-var logger = require('winston');
 
 var app = express();
 
