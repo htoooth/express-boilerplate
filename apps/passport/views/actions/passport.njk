@@ -1,0 +1,19 @@
+{% extends "layout.njk" %}
+{% import "macros.njk" as forms %}
+
+{% block body %}
+
+{{super()}}
+
+cart
+
+{{ forms.label('Username') }}
+{{ forms.input('user') }}
+{{ forms.label('Password') }}
+{{ forms.input('pass', type='password') }}
+
+{{ context | json}}
+{% include "inline.njk" %}
+
+{% endblock %}
+

@@ -1,0 +1,10 @@
+partials block
+
+
+{% macro add(x, y) %}
+{{ caller() }}: {{ x + y }}
+{% endmacro%}
+
+{% call add(1, 2) -%}
+The result is
+{%- endcall %}

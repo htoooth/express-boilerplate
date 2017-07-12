@@ -2,8 +2,6 @@
 var router = require('express').Router();
 var passport = require('./controllers/passport');
 
-router.get(['/', '/login.html'], passport.index);
-router.post('login', passport.login);
-router.get('/logout', passport.logout);
+router.get(['/', '/index.html'], passport.index);
 
 module.exports = router;
