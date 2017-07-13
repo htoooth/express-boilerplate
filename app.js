@@ -4,10 +4,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('winston');
 var nunjucks = require('nunjucks');
+var onRender = require('on-rendered');
 
 var pkg = require('./package.json');
 var config = require('./config/common');
-
 var app = express();
 
 app.use(bodyParser.json());
@@ -20,12 +20,14 @@ nunjucks.configure('./core/views', {
     express: app
 });
 
+app.use(onRender())
+
 try {
   const errHandle = require('./core/middleware/error');
   const context = require('./core/middleware/context');
 
   app.use(context);
-  require('./router')(app);
+  require('./dispatch')(app);
 
   app.all('*', errHandle.pageNotFound);
   app.use(errHandle.serverError);
