@@ -1,6 +1,6 @@
 
 var router = require('express').Router();
-var passport = require('./controllers/passport');
+var passport = require('./controller/passport');
 
 router.get(['/', '/index.html'], passport.index);
 

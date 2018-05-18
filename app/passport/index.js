@@ -10,19 +10,19 @@ app.on('mount', function(parent) {
     Object.assign(app.locals, parent.locals);
 });
 
-var coreViewDir = path.join(__dirname, '../../core/views');
+var coreViewDir = path.join(__dirname, '../../extension/view');
 
 var env = nunjucks.configure([
-  __dirname + '/views/actions',
-  __dirname + '/views/partials',
-  __dirname + '/views/macros',
+  __dirname + '/view/action',
+  __dirname + '/view/partial',
+  __dirname + '/view/macro',
   coreViewDir
 ], {
   autoescape: true,
   express: app
 });
 
-Object.entries(require('./views/filters')).forEach(([k, v])=> {
+Object.entries(require('./view/filter')).forEach(([k, v])=> {
   env.addFilter(k, v);
 });
 

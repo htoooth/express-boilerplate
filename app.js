@@ -1,40 +1,36 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var logger = require('winston');
-var nunjucks = require('nunjucks');
-var onRender = require('on-rendered');
 
-var pkg = require('./package.json');
-var config = require('./config/common');
-var app = express();
+const async = require('async')
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+function main() {
+  async.auto({
+    config(cb) {
+      cb(null, require('./config'))
+    },
+    logger: ['config', (scope, cb) => {
+      const logger = require('./module/logger')(scope.config)
+      cb(null, logger)
+    }],
+    redis: ['config', (scope, cb) => {
+      const redis = require('./module/redis')
+      cb(null, redis)
+    }],
+    util(cb) {
+      cb(null, require('./module/util'))
+    },
+    module: ['util', 'logger', 'redis', (scope, cb) => {
+      cb()
+    }],
+    web: ['config', 'module',(scope, cb) => {
+      const web = require('./web')(scope, cb)
+    }],
+    ready: ['module', 'web', (scope, cb) => {
+      cb()
+    }]
+  }, function(err, scope) {
+    const logger = scope.logger
 
-nunjucks.configure('./core/views', {
-    autoescape: true,
-    express: app
-});
-
-app.use(onRender())
-
-try {
-  const errHandle = require('./core/middleware/error');
-  const context = require('./core/middleware/context');
-
-  app.use(context);
-  require('./dispatch')(app);
-
-  app.all('*', errHandle.pageNotFound);
-  app.use(errHandle.serverError);
-} catch(e) {
-  logger.error(e);
+    logger.info('app running')
+  })
 }
 
-app.listen(config.port, () => {
-  logger.info(`${pkg.name} start at ${config.port}`);
-});
+main()

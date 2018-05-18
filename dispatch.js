@@ -1,4 +1,3 @@
-
 module.exports = (app) => {
-  app.use('/passport', require('./apps/passport'));
+  app.use('/passport', require('./app/passport'));
 }
