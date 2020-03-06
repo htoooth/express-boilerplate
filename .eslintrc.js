@@ -1,3 +1,3 @@
 module.exports = {
-  extends: ['prettier', 'htoo']
+  extends: ['prettier', 'htoooth']
 }
