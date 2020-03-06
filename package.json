@@ -6,6 +6,7 @@
     "start": "node app.js",
     "dev": "nodemon ./app.js",
     "lint": "eslint",
+    "fix": "eslint --fix *.js",
     "precommit": "lint-staged"
   },
   "dependencies": {

@@ -1,4 +1,3 @@
-
 module.exports = {
   appName: 'main-app',
   hostName: 'http://localhost',

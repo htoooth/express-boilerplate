@@ -1,11 +1,10 @@
-
 exports.index = function index(req, res, next) {
   res.on('beforeRender', function() {
-    console.log('before');
+    req.app.scope.logger.info('before')
   })
 
   res.on('render', function() {
-    console.log('after');
+    req.app.scope.logger.info('after')
   })
 
   res.render('passport.njk', {

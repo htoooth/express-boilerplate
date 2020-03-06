@@ -1,4 +1,3 @@
-
 exports.notFound = (req, res, next) => {
   if (req.xhr) {
     return res.error({
@@ -7,7 +6,7 @@ exports.notFound = (req, res, next) => {
     })
   }
 
-  res.render('error-404.njk');
+  res.render('error-404.njk')
 }
 
 exports.serverError = (err, req, res, next) => {
@@ -15,8 +14,8 @@ exports.serverError = (err, req, res, next) => {
     return res.error({
       code: 500,
       message: 'server error'
-    });
+    })
   }
 
-  res.render('error-500.njk', { err });
+  res.render('error-500.njk', { err })
 }

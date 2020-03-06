@@ -1,4 +1,4 @@
-module.exports = (scope) => {
+module.exports = scope => {
   const express = require('express')
   const path = require('path')
   const cookieParser = require('cookie-parser')
@@ -11,9 +11,11 @@ module.exports = (scope) => {
   webApp.scope = scope
   webApp.use(log4js.connectLogger(scope.getLogger('webApp'), { level: 'info' }))
   webApp.use(bodyParser.json())
-  webApp.use(bodyParser.urlencoded({
-    extended: false
-  }))
+  webApp.use(
+    bodyParser.urlencoded({
+      extended: false
+    })
+  )
   webApp.use(cookieParser())
   webApp.use(express.static(path.join(__dirname, '../..', './public')))
 

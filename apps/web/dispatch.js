@@ -1,3 +1,3 @@
-module.exports = (app) => {
-  app.use('/passport', require('./passport'));
+module.exports = app => {
+  app.use('/passport', require('./passport'))
 }
