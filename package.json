@@ -5,8 +5,8 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon ./app.js",
-    "lint": "eslint",
-    "fix": "eslint --fix *.js",
+    "lint": "eslint --cache *.js apps config extensions modules",
+    "format": "prettier --write apps/**/*.js config/**/*.js extensions/**/*.js modules/**/*.js *.js",
     "precommit": "lint-staged"
   },
   "dependencies": {
