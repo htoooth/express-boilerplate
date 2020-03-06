@@ -2,8 +2,6 @@
 const _ = require('lodash')
 
 module.exports = (req, res, next) => {
-  req.body = req.method.toLowerCase() === 'get' ? req.query : req.body
-
   res.ok = (result) => {
     if (result.data || result.code) {
       return res.json(result)
