@@ -1,0 +1,21 @@
+{
+  "verbose": true,
+  "watch": [
+    "*.js"
+  ],
+  "ignore": [
+    ".git",
+    "node_modules/**/node_modules",
+    "public/**/*",
+    "test",
+    "logs",
+    "dump.rdb"
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "PORT": 3000
+  },
+  "execMap": {
+    "js": "node"
+  }
+}

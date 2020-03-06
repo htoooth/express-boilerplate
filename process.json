@@ -1,0 +1,19 @@
+{
+    "apps": [
+        {
+            "name": "express-node",
+            "script": "app.js",
+            "instances": "4",
+            "exec_mode": "cluster",
+            "wait_ready": true,
+            "merge_logs": true,
+            "log_date_format": "YYYY-MM-DD HH:mm Z",
+            "error_file": "./logs/node/express-node-err.log",
+            "out_file": "./logs/node/express-node-out.log",
+            "env": {
+                "TZ": "Asia/Shanghai",
+                "PORT": 6002
+            }
+        }
+    ]
+}

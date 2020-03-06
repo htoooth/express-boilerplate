@@ -10,12 +10,12 @@ app.on('mount', function(parent) {
     Object.assign(app.locals, parent.locals);
 });
 
-var coreViewDir = path.join(__dirname, '../../extension/view');
+var coreViewDir = path.join(__dirname, '../../../extensions/web/view');
 
 var env = nunjucks.configure([
-  __dirname + '/view/action',
-  __dirname + '/view/partial',
-  __dirname + '/view/macro',
+  path.join(__dirname, '/view/action'),
+  path.join(__dirname,  '/view/partial'),
+  path.join(__dirname, '/view/macro'),
   coreViewDir
 ], {
   autoescape: true,

@@ -3,33 +3,60 @@ const async = require('async')
 
 function main() {
   async.auto({
+    pkg(cb) {
+      cb(null, require('./package.json'))
+    },
     config(cb) {
       cb(null, require('./config'))
     },
     logger: ['config', (scope, cb) => {
-      const logger = require('./module/logger')(scope.config)
+      const logger = require('./modules/logger')(scope.config)
       cb(null, logger)
     }],
-    redis: ['config', (scope, cb) => {
-      const redis = require('./module/redis')
+    getLogger: ['logger', (scope, cb) => {
+      cb(null, require('./modules/getLogger')(scope.config))
+    }],
+    redis: ['config', 'logger', (scope, cb) => {
+      const redis = require('./modules/redis')
       cb(null, redis)
     }],
     util(cb) {
-      cb(null, require('./module/util'))
+      cb(null, require('./modules/util'))
     },
-    module: ['util', 'logger', 'redis', (scope, cb) => {
+    modules: ['util', 'logger', 'redis', (scope, cb) => {
+      scope.logger.info('all modules are loaded')
       cb()
     }],
-    web: ['config', 'module',(scope, cb) => {
-      const web = require('./web')(scope, cb)
+    webApp: ['modules', 'config', (scope, cb) => {
+      try {
+        const webApp = require('./apps/web')(scope)
+        cb(null, webApp)
+      } catch (e) {
+        cb(e)
+      }
     }],
-    ready: ['module', 'web', (scope, cb) => {
+    apps: ['webApp', (scope, cb) => {
+      scope.logger.info('all apps are loaded')
       cb()
+    }],
+    ready: ['modules', 'apps', (scope, cb) => {
+      const logger = scope.logger
+      const config = scope.config
+
+      scope.webApp.listen(config.port, () => {
+        logger.info(`webapp is running at ${config.hostName}:${config.port}`)
+        cb()
+      })
     }]
   }, function(err, scope) {
     const logger = scope.logger
+    const pkg = scope.pkg
 
-    logger.info('app running')
+    if (err) {
+      return logger.error(err)
+    }
+
+    logger.info(`${pkg.name} is running`)
   })
 }
 
