@@ -33,9 +33,15 @@
     "nodemon": "^2.0.2",
     "prettier": "^1.19.1"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
-    "*.{js}": [
+    "!(*public)/**/*.js": [
       "eslint",
+      "prettier --write",
       "git add"
     ]
   }
