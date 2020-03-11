@@ -23,7 +23,7 @@ module.exports = (req, res, next) => {
 
     if (result instanceof Error) {
       return res.json({
-        code: result.status,
+        code: result.code,
         message: result.message
       })
     }

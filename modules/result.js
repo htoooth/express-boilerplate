@@ -1,11 +1,11 @@
 class Result {
   constructor(data, error) {
-    this.err = error
+    this.error = error
     this.data = data
   }
 
   isFaulted() {
-    return !!this.err
+    return !!this.error
   }
 
   getData() {
@@ -13,7 +13,7 @@ class Result {
   }
 
   getError() {
-    return this.err
+    return this.error
   }
 
   map(fn) {
