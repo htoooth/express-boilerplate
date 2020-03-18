@@ -1,5 +1,7 @@
+const _ = require('lodash')
+
 module.exports = (req, res, next) => {
-  req.body = req.method.toLowerCase() === 'get' ? req.query : req.body
+  req.body = _.merge({}, req.query, req.body, req.params)
 
   next()
 }

@@ -54,8 +54,17 @@ function main() {
           }
         }
       ],
+      wssApp: [
+        'webApp',
+        (scope, cb) => {
+          const wssApp = require('./apps/wss')(scope)
+          wssApp.attach(scope.webApp)
+          cb(null, wssApp)
+        }
+      ],
       apps: [
         'webApp',
+        'wssApp',
         (scope, cb) => {
           scope.logger.info('all apps are loaded')
           cb()
