@@ -25,6 +25,11 @@ class WsServer {
 
   async onEvent(event, ws, req) {
     const enterListeners = this.eventsAndListeners[event]
+
+    if (!enterListeners) {
+      return
+    }
+
     for (const handler of enterListeners) {
       await handler.wsEvent(event, null, ws, req)
     }
@@ -77,6 +82,10 @@ class WsServer {
         client.send(data)
       }
     })
+  }
+
+  size() {
+    return this.server.clients.size
   }
 
   attach(server) {

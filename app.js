@@ -1,4 +1,5 @@
 const async = require('async')
+const http = require('http')
 
 function main() {
   async.auto(
@@ -48,7 +49,8 @@ function main() {
         (scope, cb) => {
           try {
             const webApp = require('./apps/web')(scope)
-            cb(null, webApp)
+            const server = http.createServer(webApp)
+            cb(null, server)
           } catch (e) {
             cb(e)
           }

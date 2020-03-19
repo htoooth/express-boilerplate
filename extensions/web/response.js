@@ -54,7 +54,7 @@ module.exports = (req, res, next) => {
   }
 
   res.return = result => {
-    if (res.error) {
+    if (result.error) {
       return res.error(result.error)
     }
 
