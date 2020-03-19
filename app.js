@@ -48,9 +48,9 @@ function main() {
         'config',
         (scope, cb) => {
           try {
-            const webApp = require('./apps/web')(scope)
-            const server = http.createServer(webApp)
-            cb(null, server)
+            const expressServer = require('./apps/web')(scope)
+            const server = http.createServer(expressServer)
+            cb(null, { server, expressServer })
           } catch (e) {
             cb(e)
           }
@@ -60,7 +60,7 @@ function main() {
         'webApp',
         (scope, cb) => {
           const wssApp = require('./apps/wss')(scope)
-          wssApp.attach(scope.webApp)
+          wssApp.attach(scope.webApp.server)
           cb(null, wssApp)
         }
       ],
@@ -79,7 +79,7 @@ function main() {
           const logger = scope.logger
           const config = scope.config
 
-          scope.webApp.listen(config.port, () => {
+          scope.webApp.server.listen(config.port, () => {
             logger.info(
               `webapp is running at ${config.hostName}:${config.port}`
             )
