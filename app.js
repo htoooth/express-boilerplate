@@ -97,6 +97,15 @@ function main() {
       }
 
       logger.info(`${pkg.name} is running`)
+
+      process
+        .on('unhandledRejection', (reason, p) => {
+          logger.error(reason, 'Unhandled Rejection at Promise', p)
+        })
+        .on('uncaughtException', err => {
+          logger.error(err, 'Uncaught Exception thrown')
+          process.exit(1)
+        })
     }
   )
 }
