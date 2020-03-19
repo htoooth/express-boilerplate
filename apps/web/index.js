@@ -6,9 +6,23 @@ module.exports = scope => {
   const nunjucks = require('nunjucks')
   const onRender = require('on-rendered')
   const log4js = require('log4js')
+  const helmet = require('helmet')
+  const cookieSession = require('cookie-session')
+  const upload = require('../../extensions/web/upload')
+
+  const uploadInstance = upload.getInstance({
+    storage: upload.qiniuStorage(scope.config.qn_access)
+  })
 
   const webApp = express()
   webApp.scope = scope
+  webApp.use(helmet())
+  webApp.use(
+    cookieSession({
+      name: 'session',
+      keys: ['1212', '1212fds']
+    })
+  )
   webApp.use(log4js.connectLogger(scope.getLogger('webApp'), { level: 'info' }))
   webApp.use(bodyParser.json())
   webApp.use(
@@ -38,6 +52,10 @@ module.exports = scope => {
   webApp.use(responseExtension)
 
   require('./dispatch')(webApp)
+
+  webApp.post('/upload', uploadInstance.any(), function(req, res) {
+    return res.ok(req.files)
+  })
 
   webApp.all('*', errHandle.notFound)
   webApp.use(errHandle.serverError)

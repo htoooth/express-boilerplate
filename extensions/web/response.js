@@ -2,18 +2,32 @@ const _ = require('lodash')
 
 module.exports = (req, res, next) => {
   res.ok = result => {
+    if (!result) {
+      return res.json({
+        code: 200,
+        message: 'ok'
+      })
+    }
+
     if (result.data || result.code) {
       return res.json(result)
     }
 
     return res.json({
-      result,
+      data: result,
       code: 200,
       message: 'ok'
     })
   }
 
   res.error = result => {
+    if (!result) {
+      return res.json({
+        code: 400,
+        message: 'wrong'
+      })
+    }
+
     if (_.isString(result)) {
       return res.json({
         code: 400,
