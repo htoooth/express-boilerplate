@@ -10,7 +10,11 @@ module.exports = (req, res, next) => {
     }
 
     if (result.data || result.code) {
-      return res.json(result)
+      return res.json({
+        code: 200,
+        data: {},
+        ...result
+      })
     }
 
     return res.json({
